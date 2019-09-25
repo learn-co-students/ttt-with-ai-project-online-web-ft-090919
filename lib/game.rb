@@ -1,5 +1,3 @@
-require "pry"
-
 class Game
   
   attr_accessor :board, :player_1, :player_2
@@ -39,6 +37,18 @@ class Game
     !!won? ? self.board.cells[won?[0]] : nil
   end
   
-  def 
+  def turn
+    current_move = current_player.move(self.board)
+    if self.board.valid_move?(current_move)
+      self.board.update(current_move, current_player)
+    else
+      turn
+    end
+  end
   
+  def play
+    turn until over? || draw?
+    puts winner ? "Congratulations #{winner}!" : "Cat's Game!"
+  end
+    
 end
