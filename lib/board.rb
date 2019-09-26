@@ -47,7 +47,7 @@ class Board
     @cells[input_to_index(input)] = player.token
   end
 
-  private 
+  private
   def input_to_index(input)
     input.to_i - 1
   end

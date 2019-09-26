@@ -21,7 +21,29 @@ class Game
     @board = board
   end
 
+  def current_player
+    board.turn_count.even? ? player_1 : player_2
+  end
 
+  def won?
+    WIN_COMBINATIONS.find do |wincon|
+      #get all unique pieces in the relevent positions
+      pieces = wincon.map { |index| board.cells[index] }.uniq
+      #If the length is 1 then all the pieces have the same value, if the value isn't blank than someone has won
+      pieces.length == 1 && pieces.first != " "
+    end
+  end
 
+  def draw?
+    board.full? && !won?
+  end
 
+  def over?
+    board.full? || won?
+  end
+
+  def winner
+    #If won isn't nill, return the winning piece, else nill
+    !!won? ? board.cells[won?.first] : nil
+  end
 end
