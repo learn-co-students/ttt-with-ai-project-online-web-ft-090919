@@ -24,11 +24,31 @@ class Board
   end
 
   def position(index)
-    @cells[index.to_i-1]
+    @cells[input_to_index(index)]
   end
 
   def full?
     @cells.all? {|cell| cell == "X" || cell == "O"}
   end
 
+  def turn_count
+    @cells.reduce(0) { |turn_count, cell| cell != " " ? turn_count + 1 : turn_count }
+  end
+
+  def taken?(index)
+    @cells[input_to_index(index)] != " "
+  end
+
+  def valid_move?(input)
+    input_to_index(input).between?(0, 8) && !taken?(input)
+  end
+
+  def update(input, player)
+    @cells[input_to_index(input)] = player.token
+  end
+
+  private 
+  def input_to_index(input)
+    input.to_i - 1
+  end
 end
