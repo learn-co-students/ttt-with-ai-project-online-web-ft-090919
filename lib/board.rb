@@ -23,7 +23,11 @@ class Board
   end
 
   def full?
-    @cells.all? {|cell| cell == "X" || cell == "O"}
+    @cells.all? { |cell| cell == "X" || cell == "O"}
+  end
+
+  def empty?
+    @cells.all? { |cell| cell == " " }
   end
 
   def turn_count
@@ -40,6 +44,16 @@ class Board
 
   def update(input, player)
     @cells[input_to_index(input)] = player.token
+  end
+
+  def clone
+    self.class.new_with_cells(@cells.dup)
+  end
+
+  def self.new_with_cells(cells)
+    board = self.new
+    board.cells = cells
+    board
   end
 
   private
