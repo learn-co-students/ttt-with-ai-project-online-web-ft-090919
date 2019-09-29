@@ -44,4 +44,34 @@ class Game
     #If won isn't nill, return the winning piece, else nill
     !!won? ? board.cells[won?.first] : nil
   end
+
+  def turn
+    player = current_player
+    move = player.move(@board)
+
+    while !@board.valid_move?(move)
+      move = player.move(@board)
+    end
+
+    if @board.valid_move?(move)
+      @board.update(move, player)
+    end
+
+  end
+
+  def play
+    binding.pry
+
+    while !over?
+      @board.display
+      turn
+    end
+
+    if won?
+      puts "Congratulations #{winner}"
+    else
+      puts "Game is A Draw"
+    end
+  end
+
 end
