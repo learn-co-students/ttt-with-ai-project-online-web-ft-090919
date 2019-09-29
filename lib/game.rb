@@ -37,7 +37,7 @@ class Game
   end
 
   def over?
-    board.full? || won?
+    draw? || won?
   end
 
   def winner
@@ -60,17 +60,15 @@ class Game
   end
 
   def play
-    binding.pry
-
     while !over?
       @board.display
       turn
     end
 
     if won?
-      puts "Congratulations #{winner}"
+      puts "Congratulations #{winner}!"
     else
-      puts "Game is A Draw"
+      puts "Cat's Game!"
     end
   end
 
