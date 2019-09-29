@@ -18,9 +18,9 @@ class Players::Computer < Player
   end
 
   def minmax(board)
-    #If board is empty choose the center location to save time
+    #If board is empty choose randomly
     if board.empty?
-      return "5"
+      return random(board)
     end
 
     #Create placeholder enemy player for minmax algo
