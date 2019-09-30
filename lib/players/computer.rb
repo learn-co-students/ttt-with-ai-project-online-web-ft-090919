@@ -34,7 +34,7 @@ class Players::Computer < Player
     #Find bestmove and set max_index to its index, or return index if optimal
     #first check all terminals, instantly returning if finding a win position
     moves.delete_if do |index, board|
-      if board.full?
+      if over?(board)
         #If board is terminal get score
         res = minmax_score(board)
         #If terminal is winning instantly return it
@@ -97,7 +97,7 @@ class Players::Computer < Player
     max = -2
     #Find terminal and check terminal nodes and delete them from move array. If any of them are 1 instantly return
     moves.delete_if do |index, board|
-      if board.full?
+      if over?(board)
         #If board is terminal get score
         res = minmax_score(board)
         #If terminal is winning instantly return it
@@ -126,7 +126,7 @@ class Players::Computer < Player
     min = 2
     #Find terminal and check terminal nodes and delete them from move array. If any of them are -1 instantly return
     moves.delete_if do |index, board|
-      if board.full?
+      if over?(board)
         #If  board is terminal get score
         res = minmax_score(board)
         #If terminal score is losing instantly return it
