@@ -11,10 +11,8 @@ class Players::Computer < Player
     random_move = ""
 
     until board.valid_move?(random_move)
-      random_move = rand (1..9)
-      random_move = random_move.to_s
+      random_move = rand(1..9).to_s
     end
-
     random_move
   end
 
@@ -33,16 +31,29 @@ class Players::Computer < Player
     max = -2
     max_index = ""
 
-    #Find bestmove and set max_index to it's index
-    moves.each do |index, board|
-      if over?(board)
+    #Find bestmove and set max_index to its index, or return index if optimal
+    #first check all terminals, instantly returning if finding a win position
+    moves.delete_if do |index, board|
+      if board.full?
+        #If board is terminal get score
         res = minmax_score(board)
-        #If any move causes you to win instantly return it
+        #If terminal is winning instantly return it
         return index if res == 1
+        if res > max
+          max = res
+          max_index = index
+        end
+        true
       else
-        #Else get min score of new state
-        res = min(board)
+        false
       end
+    end
+
+    #Check remaining moves, instantly returning best option else returns good option
+    moves.each do |index, board|
+      #Else get min score of new state
+      res = min(board)
+      return index if res == 1
       if res > max
         #If score > max set new max and new max_index
         max = res
@@ -84,16 +95,24 @@ class Players::Computer < Player
     moves = minmax_moves(board, self)
     #Placeholder for max score, even the worst score is > -2
     max = -2
-    out = moves.each do |index, board|
-      if over?(board)
+    #Find terminal and check terminal nodes and delete them from move array. If any of them are 1 instantly return
+    moves.delete_if do |index, board|
+      if board.full?
         #If board is terminal get score
         res = minmax_score(board)
         #If terminal is winning instantly return it
         return res if res == 1
+        max = res if res > max
+        true
       else
-        #Else get worst score of new state
-        res = min(board)
+        false
       end
+    end
+
+    #Else get worst scores of new states
+    moves.each do |index, board|
+      res = min(board)
+      return res if res == 1
       max = res if res > max
     end
     max
@@ -105,16 +124,24 @@ class Players::Computer < Player
     moves = minmax_moves(board, @enemy)
     #Placeholder for max score, even the best score is < 2
     min = 2
-    moves.each do |index, board|
-      if over?(board)
+    #Find terminal and check terminal nodes and delete them from move array. If any of them are -1 instantly return
+    moves.delete_if do |index, board|
+      if board.full?
         #If  board is terminal get score
         res = minmax_score(board)
         #If terminal score is losing instantly return it
         return res if res == -1
+        min = res if res > min
+        true
       else
-        #Else get best score of new board state
-        res = max(board)
+        false
       end
+    end
+
+    #Else get best scores of new board states
+    moves.each do |index, board|
+      res = max(board)
+      return res if res == -1
       min = res if res < min
     end
     min
