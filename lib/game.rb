@@ -123,5 +123,4 @@ class Game
       puts "Player 2 won #{res[:l]}"
       puts "#{res[:d]} ties"
   end
-
 end

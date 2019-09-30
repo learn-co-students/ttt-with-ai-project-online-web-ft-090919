@@ -14,6 +14,7 @@ class Players::Computer < Player
       random_move = rand (1..9)
       random_move = random_move.to_s
     end
+
     random_move
   end
 
@@ -28,13 +29,15 @@ class Players::Computer < Player
     @enemy = Player.new(enemy_token)
     moves = minmax_moves(board, self)
 
-    #Find the best move's index
+    #Placeholders
     max = -2
     max_index = ""
+
+    #Find bestmove and set max_index to it's index
     moves.each do |index, board|
       if over?(board)
         res = minmax_score(board)
-        #If any move causes you to win instantly return it 
+        #If any move causes you to win instantly return it
         return index if res == 1
       else
         #Else get min score of new state
