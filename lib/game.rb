@@ -7,7 +7,8 @@ class Game
   def initialize(player_1 = Players::Human.new("X"), player_2 = Players::Human.new("O"), board = Board.new)
     @player_1 = player_1
     @player_2 = player_2
-    @board = board end
+    @board = board 
+  end
 
   def current_player
     board.turn_count.even? ? player_1 : player_2
@@ -105,6 +106,7 @@ class Game
         times = gets.strip
       end
 
+      start = Time.now
       res = times.to_i.times.reduce({w: 0, l: 0, d: 0}) do |track, i|
         g = Game.new(Players::Computer.new("X"), Players::Computer.new("O"))
         g.play
@@ -119,8 +121,10 @@ class Game
         end
         track
       end
+      tend = Time.now
       puts "Player 1 won #{res[:w]}"
       puts "Player 2 won #{res[:l]}"
       puts "#{res[:d]} ties"
+      puts "Took #{start - tend} seconds"
   end
 end
