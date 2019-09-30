@@ -125,6 +125,6 @@ class Game
       puts "Player 1 won #{res[:w]}"
       puts "Player 2 won #{res[:l]}"
       puts "#{res[:d]} ties"
-      puts "Took #{start - tend} seconds"
+      puts "Took #{tend - start} seconds"
   end
 end
